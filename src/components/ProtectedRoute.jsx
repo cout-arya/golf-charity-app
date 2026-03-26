@@ -12,7 +12,12 @@ export const ProtectedRoute = ({ children, requiredRole = 'user' }) => {
     return <Navigate to="/login" replace />;
   }
 
-  if (requiredRole === 'admin' && profile?.role !== 'admin') {
+  // Wait for profile to load before checking role
+  if (!profile) {
+    return <div className="flex h-screen items-center justify-center text-on-surface">Loading...</div>;
+  }
+
+  if (requiredRole === 'admin' && profile.role !== 'admin') {
     return <Navigate to="/user" replace />;
   }
 
