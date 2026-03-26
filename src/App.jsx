@@ -23,6 +23,14 @@ function App() {
             
             {/* User Routes */}
             <Route 
+              path="/user" 
+              element={
+                <ProtectedRoute requiredRole="user">
+                  <Dashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
               path="/dashboard" 
               element={
                 <ProtectedRoute requiredRole="user">

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { supabase } from '../lib/supabaseClient';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
@@ -35,12 +36,22 @@ export default function Login() {
       setError(result.error.message);
       setLoading(false);
     } else if (!isLogin && result.data?.user && !result.data.session) {
-      // Signup succeeded but email confirmation is required
       setSuccess('Account created! Check your email to confirm, then sign in.');
       setLoading(false);
       setIsLogin(true);
     } else {
-      navigate('/dashboard');
+      // Redirect based on role
+      const userId = result.data?.user?.id;
+      if (userId) {
+        const { data: prof } = await supabase.from('profiles').select('role').eq('id', userId).single();
+        if (prof?.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/user');
+        }
+      } else {
+        navigate('/user');
+      }
     }
   };
 

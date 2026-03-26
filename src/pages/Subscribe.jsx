@@ -51,7 +51,7 @@ export default function Subscribe() {
       console.error('Subscription error:', error);
       alert('Subscription failed: ' + error.message);
     } else {
-      navigate('/dashboard');
+      navigate('/user');
     }
     setProcessing(null);
     setShowCheckout(null);
@@ -61,7 +61,7 @@ export default function Subscribe() {
     <div className="min-h-screen flex flex-col items-center px-4 py-12">
       <nav className="w-full flex justify-between items-center px-6 max-w-7xl mx-auto mb-16">
         <Link to="/" className="font-display font-bold text-xl text-primary">ImpactLinks Golf</Link>
-        <Link to={user ? '/dashboard' : '/login'} className="btn btn-secondary">{user ? 'Dashboard' : 'Sign In'}</Link>
+        <Link to={user ? '/user' : '/login'} className="btn btn-secondary">{user ? 'Dashboard' : 'Sign In'}</Link>
       </nav>
 
       <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="display-lg text-center mb-4">Choose Your Impact Plan</motion.h1>

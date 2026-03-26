@@ -28,10 +28,10 @@ The app will be available at **http://localhost:3000**
 
 Two pre-seeded accounts are available for testing all features:
 
-| Role    | Email                        | Password       | Access URL                           |
-|---------|------------------------------|----------------|--------------------------------------|
-| **Admin** | `admin@impactlinks.test`   | `Admin@1234`   | http://localhost:3000/admin          |
-| **User**  | `user@impactlinks.test`    | `User@1234`    | http://localhost:3000/dashboard      |
+| Role    | Email                        | Password       | Access URL     |
+|---------|------------------------------|----------------|----------------|
+| **Admin** | `admin@impactlinks.test`   | `Admin@1234`   | `/admin`       |
+| **User**  | `user@impactlinks.test`    | `User@1234`    | `/user`        |
 
 ### Admin Account (`admin@impactlinks.test`)
 - Full access to the **Admin Dashboard** with 5 tabs:
