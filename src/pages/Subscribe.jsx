@@ -6,7 +6,7 @@ import { supabase } from '../lib/supabaseClient';
 import { motion } from 'framer-motion';
 
 export default function Subscribe() {
-  const { user, profile } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [processing, setProcessing] = useState(null); // 'monthly' | 'yearly' | null
   const [showCheckout, setShowCheckout] = useState(null);
