@@ -1,70 +1,128 @@
-# Getting Started with Create React App
+# 🏌️ ImpactLinks Golf — Charity Subscription Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A subscription-based golf platform where every Stableford round you play contributes to life-changing charities and enters you into a monthly prize draw.
 
-## Available Scripts
+> Built with **React** · **Supabase** · **TailwindCSS** · **Framer Motion** · **Recharts**
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🚀 Quick Start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+# 1. Clone the repository
+git clone https://github.com/cout-arya/golf-charity-app.git
+cd golf-charity-app
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# 2. Install dependencies
+npm install
 
-### `npm test`
+# 3. Start the development server
+npm start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The app will be available at **http://localhost:3000**
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🔑 Test Accounts
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Two pre-seeded accounts are available for testing all features:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Role    | Email                        | Password       | Access URL                           |
+|---------|------------------------------|----------------|--------------------------------------|
+| **Admin** | `admin@impactlinks.test`   | `Admin@1234`   | http://localhost:3000/admin          |
+| **User**  | `user@impactlinks.test`    | `User@1234`    | http://localhost:3000/dashboard      |
 
-### `npm run eject`
+### Admin Account (`admin@impactlinks.test`)
+- Full access to the **Admin Dashboard** with 5 tabs:
+  - **Overview** — Platform stats, prize pool growth chart, subscriber count
+  - **Users** — View all registered users and their subscription status
+  - **Draws Engine** — Simulate random/algorithmic draws, analyze payouts, publish official results
+  - **Charities** — Add, edit, and delete charity partners
+  - **Winners** — Approve/reject winner proofs and manage payouts
+- Has a **Yearly subscription** (active)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### User Account (`user@impactlinks.test`)
+- Access to the **User Dashboard**:
+  - **Subscription Status** — Active monthly plan with renewal date
+  - **Score Tracking** — 5 pre-loaded Stableford scores (33, 25, 41, 18, 29)
+  - **Supported Charity** — First Tee, with 10% contribution (adjustable)
+  - **Impact Winnings** — 1 pending 3-match win (£75.00, awaiting proof upload)
+  - **Participation Summary** — Draw eligibility status
+- Has a **Monthly subscription** (active)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 📁 Project Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+golf-charity-app/
+├── public/                     # Static assets
+├── src/
+│   ├── components/             # Reusable React components
+│   │   └── ProtectedRoute.jsx  # Role-based access control
+│   ├── context/
+│   │   └── AuthContext.jsx     # Auth + subscription state management
+│   ├── lib/
+│   │   └── supabaseClient.js   # Supabase client initialization
+│   ├── pages/
+│   │   ├── Landing.jsx         # Public landing page
+│   │   ├── Login.jsx           # Auth (sign in / sign up)
+│   │   ├── Subscribe.jsx       # Subscription plans + simulated Stripe checkout
+│   │   ├── Charities.jsx       # Charity directory with search & select
+│   │   ├── Dashboard.jsx       # User dashboard (scores, winnings, charity)
+│   │   ├── AdminDashboard.jsx  # Admin panel (users, draws, charities, winners)
+│   │   └── Profile.jsx         # User profile settings
+│   └── styles/
+│       ├── index.css           # Aura Impact design system (CSS variables)
+│       └── tailwind.css        # Compiled TailwindCSS output
+├── supabase/
+│   └── migrations/
+│       ├── 001_schema.sql      # Full database schema
+│       └── 002_fix_rls_recursion.sql  # RLS infinite recursion fix
+├── scripts/
+│   └── seed.mjs                # Test data seed script
+├── tailwind.config.js          # TailwindCSS configuration
+└── package.json
+```
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🧩 Key Features
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| Feature | Description |
+|---------|-------------|
+| **Subscription Plans** | Monthly (£9.99) and Yearly (£89.99) with simulated Stripe checkout |
+| **Score Tracking** | 5-score rolling system with Stableford validation (1-45) |
+| **Monthly Draw** | Random and algorithmic draw modes with 3/4/5-match tiers |
+| **Prize Pool** | Auto-calculated: 40% (5-match jackpot), 35% (4-match), 25% (3-match) |
+| **Charity Integration** | Select a charity, adjust contribution %, track impact |
+| **Winner Verification** | Upload proof → Admin approves → Payout tracked |
+| **Admin Dashboard** | Full platform management with analytics |
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🛠️ Tech Stack
 
-### Analyzing the Bundle Size
+- **Frontend**: React (CRA), TailwindCSS, Framer Motion, Recharts, Lucide React
+- **Backend**: Supabase (Auth, PostgreSQL, Storage, Row-Level Security)
+- **Payment**: Simulated Stripe checkout (ready for production keys)
+- **Design**: Aura Impact dark-mode design system with UI/UX Pro Max standards
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## 📝 Environment Variables
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Create a `.env.local` file in the project root:
 
-### Advanced Configuration
+```env
+REACT_APP_SUPABASE_URL=your_supabase_project_url
+REACT_APP_SUPABASE_ANON_KEY=your_supabase_anon_key
+REACT_APP_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## 📜 License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is developed for Digital Heroes as part of a Full Stack Training program.
