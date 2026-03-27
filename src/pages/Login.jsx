@@ -56,23 +56,29 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4">
-      <Link to="/" className="text-primary font-bold mb-8 hover:opacity-80 transition-opacity">← Back to ImpactLinks</Link>
+    <div className="min-h-screen flex flex-col items-center justify-center px-4"
+      style={{ backgroundColor: 'var(--bg-color)' }}>
+      <Link to="/" className="font-semibold mb-8 hover:opacity-80 transition-opacity flex items-center gap-2"
+        style={{ color: 'var(--primary)' }}>
+        ← Back to ImpactLinks
+      </Link>
       
-      <div className="card max-w-md w-full glass-panel">
+      <div className="card max-w-md w-full" style={{ padding: '2.5rem' }}>
         <h1 className="headline-md text-center mb-2">{isLogin ? 'Welcome Back' : 'Join the Impact'}</h1>
         <p className="text-center text-muted text-sm mb-8">
           {isLogin ? 'Sign in to log scores and check draws.' : 'Create an account to dedicate your rounds to charity.'}
         </p>
 
         {success && (
-          <div className="p-3 rounded-lg text-sm mb-6" style={{ backgroundColor: 'var(--primary-container)', color: 'var(--primary)' }}>
+          <div className="p-3 rounded-lg text-sm mb-6"
+            style={{ backgroundColor: 'var(--primary-fixed)', color: 'var(--primary)' }}>
             {success}
           </div>
         )}
 
         {error && (
-          <div className="p-3 rounded-lg text-sm mb-6" style={{ backgroundColor: 'var(--error-container)', color: 'var(--error)' }}>
+          <div className="p-3 rounded-lg text-sm mb-6"
+            style={{ backgroundColor: 'var(--error-container)', color: 'var(--error)' }}>
             {error}
           </div>
         )}
@@ -133,7 +139,8 @@ export default function Login() {
               setPassword('');
               setFullName('');
             }} 
-            className="text-primary hover:underline font-semibold bg-transparent border-none cursor-pointer"
+            className="font-semibold bg-transparent border-none cursor-pointer hover:underline"
+            style={{ color: 'var(--primary)' }}
           >
             {isLogin ? 'Sign up' : 'Sign in'}
           </button>

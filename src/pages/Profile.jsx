@@ -34,14 +34,16 @@ export default function Profile() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto py-12 px-4">
-      <Link to="/dashboard" className="text-primary font-bold mb-8 hover:opacity-80 transition-opacity flex items-center gap-2">
+    <div className="max-w-2xl mx-auto py-12 px-4" style={{ backgroundColor: 'var(--bg-color)', minHeight: '100vh' }}>
+      <Link to="/dashboard" className="font-semibold mb-8 hover:opacity-80 transition-opacity flex items-center gap-2"
+        style={{ color: 'var(--primary)' }}>
         <ArrowLeft size={16} /> Back to Dashboard
       </Link>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card glass-panel mt-6">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card mt-6">
         <div className="flex items-center gap-4 mb-8">
-          <div className="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center text-primary font-bold text-2xl">
+          <div className="w-16 h-16 rounded-full flex items-center justify-center font-bold text-2xl"
+            style={{ backgroundColor: 'var(--primary-fixed)', color: 'var(--primary)' }}>
             {fullName?.[0] || <User size={24} />}
           </div>
           <div>
@@ -72,7 +74,7 @@ export default function Profile() {
             <button type="submit" disabled={saving} className="btn btn-primary flex items-center gap-2">
               {saving ? <><Loader2 size={16} className="animate-spin" /> Saving...</> : <><Save size={16} /> Save Changes</>}
             </button>
-            {saved && <span className="text-primary text-sm font-semibold">✓ Saved successfully!</span>}
+            {saved && <span className="text-sm font-semibold" style={{ color: 'var(--primary)' }}>✓ Saved successfully!</span>}
           </div>
         </form>
       </motion.div>

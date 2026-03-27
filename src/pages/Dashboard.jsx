@@ -134,13 +134,14 @@ export default function Dashboard() {
   const totalWon = winners.reduce((sum, w) => sum + (w.payout_status === 'paid' ? parseFloat(w.prize_amount) : 0), 0);
 
   return (
-    <div className="max-w-7xl mx-auto py-12 px-4">
+    <div className="max-w-7xl mx-auto py-12 px-4" style={{ backgroundColor: 'var(--bg-color)', minHeight: '100vh' }}>
       <div className="flex justify-between items-center mb-12">
         <div>
+          <span className="label-kicker mb-1 block" style={{ color: 'var(--tertiary)' }}>DASHBOARD</span>
           <h1 className="headline-md">Welcome back, {profile?.full_name?.split(' ')[0] || 'Golfer'}</h1>
           <p className="text-sm text-muted mt-1">Your ImpactLinks Dashboard</p>
         </div>
-        <button onClick={signOut} className="btn btn-secondary border-none text-muted flex items-center gap-2">
+        <button onClick={signOut} className="btn btn-secondary flex items-center gap-2">
           <LogOut size={16} /> Sign Out
         </button>
       </div>
@@ -152,13 +153,17 @@ export default function Dashboard() {
           {/* Subscription Status */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card-elevated">
             <div className="flex items-center gap-3 mb-4">
-              <CalendarDays size={20} className="text-primary" />
+              <CalendarDays size={20} style={{ color: 'var(--primary)' }} />
               <h2 className="title-md">Subscription Status</h2>
             </div>
-            <div className="p-4 rounded-xl border border-glass-border">
+            <div className="p-4 rounded-xl" style={{ backgroundColor: 'var(--surface-container-low)' }}>
               <div className="flex justify-between items-center mb-2">
                 <span className="font-semibold capitalize">{subscription?.plan || 'No'} Plan</span>
-                <span className={`font-bold px-3 py-1 rounded-full text-xs ${isActive ? 'bg-primary/20 text-primary' : 'bg-red-500/20 text-red-400'}`}>
+                <span className={`font-bold px-3 py-1 rounded-full text-xs`}
+                  style={{
+                    backgroundColor: isActive ? 'var(--primary-fixed)' : 'var(--error-container)',
+                    color: isActive ? 'var(--primary)' : 'var(--error)'
+                  }}>
                   {isActive ? 'Active' : 'Inactive'}
                 </span>
               </div>
@@ -174,8 +179,8 @@ export default function Dashboard() {
           {/* Score Entry */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="card-elevated">
             <div className="flex items-center gap-3 mb-4">
-              <Target size={20} className="text-primary" />
-              <h2 className="title-md text-primary">Recent Scores</h2>
+              <Target size={20} style={{ color: 'var(--primary)' }} />
+              <h2 className="title-md" style={{ color: 'var(--primary)' }}>Recent Scores</h2>
             </div>
             <form onSubmit={handleScoreSubmit} className="flex gap-4 mb-6 items-end flex-wrap">
               <div className="flex flex-col gap-2 flex-grow min-w-[120px]">
@@ -195,7 +200,8 @@ export default function Dashboard() {
 
             <AnimatePresence>
               {scores.length === 0 ? (
-                <div className="text-muted p-4 bg-surface-lowest rounded-xl text-center">
+                <div className="text-muted p-4 rounded-xl text-center"
+                  style={{ backgroundColor: 'var(--surface-container-low)' }}>
                   No rounds tracked yet. Add your first score above.
                 </div>
               ) : (
@@ -204,12 +210,13 @@ export default function Dashboard() {
                     <motion.div key={s.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.05 }}
                       className="flex justify-between items-center p-4 rounded-xl"
-                      style={{ backgroundColor: 'var(--surface-container-highest)' }}>
+                      style={{ backgroundColor: 'var(--surface-container-low)' }}>
                       <div>
                         <div className="font-semibold text-lg">{s.score} pts</div>
                         <div className="text-sm text-muted">{new Date(s.played_date).toLocaleDateString()}</div>
                       </div>
-                      {idx === 0 && <div className="text-xs bg-primary text-on-primary px-2 py-1 rounded-full font-bold">LATEST</div>}
+                      {idx === 0 && <div className="text-xs px-2 py-1 rounded-full font-bold"
+                        style={{ backgroundColor: 'var(--primary)', color: '#ffffff' }}>LATEST</div>}
                     </motion.div>
                   ))}
                 </div>
@@ -224,19 +231,24 @@ export default function Dashboard() {
           {/* Impact Winnings */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="card-elevated">
             <div className="flex items-center gap-3 mb-4">
-              <Trophy size={20} className="text-tertiary" />
-              <h2 className="title-md text-tertiary">Impact Winnings</h2>
+              <Trophy size={20} style={{ color: 'var(--tertiary)' }} />
+              <h2 className="title-md" style={{ color: 'var(--tertiary)' }}>Impact Winnings</h2>
             </div>
-            <div className="display-lg text-tertiary">£{totalWon.toFixed(2)}</div>
+            <div className="display-lg" style={{ color: 'var(--tertiary)' }}>£{totalWon.toFixed(2)}</div>
             {winners.length > 0 && (
               <div className="flex flex-col gap-2 mt-4">
                 {winners.map(w => (
-                  <div key={w.id} className="p-3 rounded-lg text-sm" style={{ backgroundColor: 'var(--surface-container-highest)' }}>
+                  <div key={w.id} className="p-3 rounded-lg text-sm"
+                    style={{ backgroundColor: 'var(--surface-container-low)' }}>
                     <div className="flex justify-between items-center">
                       <span className="font-semibold">{w.match_type}-Match · £{parseFloat(w.prize_amount).toFixed(2)}</span>
-                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-                        w.payout_status === 'paid' ? 'bg-primary/20 text-primary' : 'bg-yellow-500/20 text-yellow-400'
-                      }`}>{w.payout_status.toUpperCase()}</span>
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full`}
+                        style={{
+                          backgroundColor: w.payout_status === 'paid' ? 'var(--primary-fixed)' : 'var(--tertiary-fixed)',
+                          color: w.payout_status === 'paid' ? 'var(--primary)' : 'var(--tertiary)'
+                        }}>
+                        {w.payout_status.toUpperCase()}
+                      </span>
                     </div>
                     {w.verification_status === 'pending' && !w.proof_url && (
                       <label className="btn btn-secondary text-xs mt-2 cursor-pointer inline-flex items-center gap-1">
@@ -246,7 +258,7 @@ export default function Dashboard() {
                       </label>
                     )}
                     {uploadingProof === w.id && <span className="text-xs text-muted flex items-center gap-1 mt-1"><Loader2 size={12} className="animate-spin" /> Uploading...</span>}
-                    {w.proof_url && <span className="text-xs text-primary mt-1 block">Proof submitted · {w.verification_status}</span>}
+                    {w.proof_url && <span className="text-xs mt-1 block" style={{ color: 'var(--primary)' }}>Proof submitted · {w.verification_status}</span>}
                   </div>
                 ))}
               </div>
@@ -257,24 +269,26 @@ export default function Dashboard() {
           {/* Supported Charity */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="card-elevated">
             <div className="flex items-center gap-3 mb-4">
-              <Heart size={20} className="text-red-400" />
+              <Heart size={20} style={{ color: 'var(--error)' }} />
               <h2 className="title-md">Supported Charity</h2>
             </div>
             {profile?.charity_id ? (
               <div className="flex flex-col gap-2">
                 <div className="font-semibold">{charityName || 'Loading...'}</div>
-                <div className="w-full bg-surface-container-highest rounded-full h-2 mt-2">
-                  <div className="bg-primary h-2 rounded-full transition-all" style={{ width: `${charityPercentage}%` }}></div>
+                <div className="w-full rounded-full h-2 mt-2" style={{ backgroundColor: 'var(--surface-container-highest)' }}>
+                  <div className="h-2 rounded-full transition-all" style={{ width: `${charityPercentage}%`, backgroundColor: 'var(--primary)' }}></div>
                 </div>
                 <div className="flex justify-between text-xs text-muted mt-1">
                   <div className="flex items-center gap-2">
                     <span>{charityPercentage}% Contribution</span>
                     <button disabled={savingPercentage} onClick={() => handlePercentageChange(Math.max(10, charityPercentage - 5))}
-                      className="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center text-xs font-bold hover:bg-surface-variant transition-colors">-</button>
+                      className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors"
+                      style={{ backgroundColor: 'var(--surface-container-high)' }}>-</button>
                     <button disabled={savingPercentage} onClick={() => handlePercentageChange(Math.min(100, charityPercentage + 5))}
-                      className="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center text-xs font-bold hover:bg-surface-variant transition-colors">+</button>
+                      className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors"
+                      style={{ backgroundColor: 'var(--surface-container-high)' }}>+</button>
                   </div>
-                  <Link to="/charities" className="text-tertiary hover:underline">Change</Link>
+                  <Link to="/charities" className="hover:underline" style={{ color: 'var(--tertiary)' }}>Change</Link>
                 </div>
               </div>
             ) : (
@@ -292,9 +306,9 @@ export default function Dashboard() {
               <span className="text-muted">Draws Entered</span>
               <span className="font-bold text-lg">{winners.length}</span>
             </div>
-            <div className="p-3 bg-surface-container-highest rounded-lg mt-4">
-              <div className="text-xs text-primary font-bold mb-1">NEXT DRAW</div>
-              <div className="text-sm">End of Month Jackpot</div>
+            <div className="p-3 rounded-lg mt-4" style={{ backgroundColor: 'var(--surface-container-low)' }}>
+              <div className="text-xs font-bold mb-1" style={{ color: 'var(--primary)' }}>NEXT DRAW</div>
+              <div className="text-sm font-semibold">End of Month Jackpot</div>
               <div className="text-xs text-muted mt-1">
                 {scores.length < 5 ? `You need ${5 - scores.length} more score(s) to enter!` : 'You are eligible for the next draw!'}
               </div>

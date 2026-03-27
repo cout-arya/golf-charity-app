@@ -144,16 +144,19 @@ export default function AdminDashboard() {
   const tabs = Object.keys(tabIcons);
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen" style={{ backgroundColor: 'var(--bg-color)' }}>
       {/* Sidebar */}
-      <aside className="w-64 bg-surface-container-low border-r border-glass-border p-6 flex-col gap-6 hidden md:flex flex-shrink-0">
-        <div className="font-display font-bold text-xl mb-8 text-primary">ImpactLinks Admin</div>
+      <aside className="w-64 p-6 flex-col gap-6 hidden md:flex flex-shrink-0"
+        style={{ backgroundColor: 'var(--surface-container-lowest)', borderRight: '1px solid var(--outline-variant)' }}>
+        <div className="font-display font-bold text-xl mb-8" style={{ color: 'var(--primary)' }}>⛳ ImpactLinks Admin</div>
         <nav className="flex flex-col gap-2">
           {tabs.map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
-              className={`flex items-center gap-3 text-left p-3 rounded-xl font-semibold transition-colors border-none cursor-pointer text-sm ${
-                activeTab === t ? 'bg-surface-variant text-on-surface' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container'
-              }`}>
+              className="flex items-center gap-3 text-left p-3 rounded-xl font-semibold transition-colors border-none cursor-pointer text-sm"
+              style={{
+                backgroundColor: activeTab === t ? 'var(--surface-container)' : 'transparent',
+                color: activeTab === t ? 'var(--primary)' : 'var(--on-surface-variant)',
+              }}>
               {tabIcons[t]} {t}
             </button>
           ))}
@@ -166,10 +169,14 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <main className="flex-1 p-8 md:p-12 overflow-y-auto">
         <div className="flex justify-between items-center mb-10">
-          <h1 className="headline-md">{activeTab}</h1>
+          <div>
+            <span className="label-kicker mb-1 block" style={{ color: 'var(--tertiary)' }}>ADMIN PANEL</span>
+            <h1 className="headline-md">{activeTab}</h1>
+          </div>
           <div className="flex items-center gap-4">
             <span className="text-sm font-semibold">{profile?.full_name}</span>
-            <div className="w-10 h-10 bg-primary-container rounded-full flex items-center justify-center text-primary font-bold">
+            <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold"
+              style={{ backgroundColor: 'var(--primary-fixed)', color: 'var(--primary)' }}>
               {profile?.full_name?.[0] || 'A'}
             </div>
           </div>
@@ -180,38 +187,43 @@ export default function AdminDashboard() {
           <div className="flex flex-col gap-8">
             <div className="grid md:grid-cols-4 gap-6">
               {[
-                { label: 'Total Users', value: users.length, color: 'text-on-surface' },
-                { label: 'Active Subs', value: users.filter(u => u.subscriptions?.some?.(s => s.status === 'active')).length, color: 'text-primary' },
-                { label: 'Prize Pool (Est)', value: '£1,200', color: 'text-tertiary' },
-                { label: 'Charities', value: charities.length, color: 'text-primary' },
+                { label: 'Total Users', value: users.length, color: 'var(--on-surface)' },
+                { label: 'Active Subs', value: users.filter(u => u.subscriptions?.some?.(s => s.status === 'active')).length, color: 'var(--primary)' },
+                { label: 'Prize Pool (Est)', value: '£1,200', color: 'var(--tertiary)' },
+                { label: 'Charities', value: charities.length, color: 'var(--primary)' },
               ].map((card, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-                  className="card shadow-sm border border-glass-border">
+                  className="card-elevated">
                   <div className="text-sm text-muted mb-2 font-semibold">{card.label}</div>
-                  <div className={`display-lg ${card.color}`}>{card.value}</div>
+                  <div className="display-lg" style={{ color: card.color }}>{card.value}</div>
                 </motion.div>
               ))}
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
-              <div className="card md:col-span-2 border border-glass-border bg-surface-container-low min-h-[300px]">
+              <div className="card-elevated md:col-span-2 min-h-[300px]">
                 <h2 className="title-md mb-6">Prize Pool Growth</h2>
                 <div style={{ height: '250px' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData}>
                       <XAxis dataKey="name" stroke="var(--on-surface-variant)" />
                       <YAxis stroke="var(--on-surface-variant)" />
-                      <Tooltip contentStyle={{ backgroundColor: 'var(--surface-container-highest)', border: 'none', borderRadius: '8px' }}/>
+                      <Tooltip contentStyle={{
+                        backgroundColor: 'var(--surface-container-lowest)',
+                        border: '1px solid var(--outline-variant)',
+                        borderRadius: '8px',
+                        color: 'var(--on-surface)'
+                      }} />
                       <Bar dataKey="pool" fill="var(--primary)" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
               </div>
-              <div className="card border border-glass-border flex flex-col justify-center text-center">
-                <h3 className="title-md mb-4 text-tertiary">Next Draw</h3>
+              <div className="card-elevated flex flex-col justify-center text-center">
+                <h3 className="title-md mb-4" style={{ color: 'var(--tertiary)' }}>Next Draw</h3>
                 <div className="text-4xl font-display font-bold mb-2">12 Days</div>
                 <p className="text-sm text-muted mb-6">Scheduled for 1st of next month.</p>
-                <button onClick={() => setActiveTab('Draws Engine')} className="btn btn-primary w-full shadow-lg">Go to Draw Engine</button>
+                <button onClick={() => setActiveTab('Draws Engine')} className="btn btn-primary w-full">Go to Draw Engine</button>
               </div>
             </div>
           </div>
@@ -219,12 +231,12 @@ export default function AdminDashboard() {
 
         {/* ═══ USERS TAB ═══ */}
         {activeTab === 'Users' && (
-          <div className="card">
+          <div className="card-elevated">
             <h2 className="title-md mb-6">All Users ({users.length})</h2>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="text-muted border-b border-glass-border">
+                  <tr className="text-muted" style={{ borderBottom: '1px solid var(--outline-variant)' }}>
                     <th className="pb-3 px-2">Name</th>
                     <th className="pb-3 px-2">Role</th>
                     <th className="pb-3 px-2">Subscription</th>
@@ -233,16 +245,24 @@ export default function AdminDashboard() {
                 </thead>
                 <tbody>
                   {users.map(u => (
-                    <tr key={u.id} className="border-b border-glass-border last:border-0 hover:bg-surface-container-low transition-colors">
+                    <tr key={u.id} className="transition-colors"
+                      style={{ borderBottom: '1px solid var(--outline-variant)' }}
+                      onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--surface-container-low)'}
+                      onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}>
                       <td className="py-4 px-2 font-semibold">{u.full_name || 'N/A'}</td>
                       <td className="py-4 px-2">
-                        <span className={`px-2 py-1 rounded-full text-xs font-bold ${u.role === 'admin' ? 'bg-tertiary/20 text-tertiary' : 'bg-primary/20 text-primary'}`}>
+                        <span className="px-2 py-1 rounded-full text-xs font-bold"
+                          style={{
+                            backgroundColor: u.role === 'admin' ? 'var(--tertiary-fixed)' : 'var(--primary-fixed)',
+                            color: u.role === 'admin' ? 'var(--tertiary)' : 'var(--primary)',
+                          }}>
                           {u.role}
                         </span>
                       </td>
                       <td className="py-4 px-2">
                         {u.subscriptions && u.subscriptions.length > 0 ? (
-                          <span className={`text-xs font-bold ${u.subscriptions[0].status === 'active' ? 'text-primary' : 'text-muted'}`}>
+                          <span className="text-xs font-bold"
+                            style={{ color: u.subscriptions[0].status === 'active' ? 'var(--primary)' : 'var(--on-surface-variant)' }}>
                             {u.subscriptions[0].plan} · {u.subscriptions[0].status}
                           </span>
                         ) : <span className="text-muted text-xs">None</span>}
@@ -262,14 +282,14 @@ export default function AdminDashboard() {
         {/* ═══ DRAWS ENGINE TAB ═══ */}
         {activeTab === 'Draws Engine' && (
           <div className="flex flex-col gap-8">
-            <div className="card bg-surface-container-low border border-glass-border">
+            <div className="card-elevated">
               <h2 className="title-md mb-6">Draw Simulator</h2>
               <p className="text-sm text-muted mb-8 max-w-2xl">
                 Run a simulation to analyze potential payouts before officially publishing the draw.
               </p>
               <div className="flex gap-4 mb-8 flex-wrap">
                 <button onClick={() => handleSimulateDraw('random')} disabled={isProcessing}
-                  className="btn btn-secondary border-primary text-primary">
+                  className="btn btn-primary">
                   {isProcessing ? <><Loader2 size={14} className="animate-spin mr-2" /> Running...</> : 'Simulate Random Draw'}
                 </button>
                 <button onClick={() => handleSimulateDraw('algorithmic')} disabled={isProcessing}
@@ -278,33 +298,37 @@ export default function AdminDashboard() {
 
               {simulationResult && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                  className="p-8 border border-glass-border rounded-xl bg-surface-container grid md:grid-cols-2 gap-8 glass-panel">
+                  className="p-8 rounded-xl grid md:grid-cols-2 gap-8"
+                  style={{ backgroundColor: 'var(--surface-container-low)', border: '1px solid var(--outline-variant)' }}>
                   <div>
-                    <div className="text-sm text-muted font-bold mb-2 uppercase tracking-wide">Generated Numbers ({simulationResult.type})</div>
+                    <div className="label-kicker mb-2">Generated Numbers ({simulationResult.type})</div>
                     <div className="flex gap-3 mb-8">
                       {simulationResult.numbers.map((n, i) => (
-                        <div key={i} className="w-12 h-12 bg-primary-container text-primary font-display font-bold text-xl rounded-full flex items-center justify-center border border-primary">
+                        <div key={i} className="w-12 h-12 font-display font-bold text-xl rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: 'var(--primary-fixed)', color: 'var(--primary)', border: '2px solid var(--primary)' }}>
                           {n}
                         </div>
                       ))}
                     </div>
-                    <div className="text-sm text-muted font-bold mb-4 uppercase tracking-wide">Payout Analysis</div>
+                    <div className="label-kicker mb-4">Payout Analysis</div>
                     <div className="flex flex-col gap-3">
                       {[
-                        { label: '5-Match', icon: <Trophy size={14} />, m: simulationResult.matches.m5, p: simulationResult.payouts.m5, color: 'text-tertiary' },
-                        { label: '4-Match', m: simulationResult.matches.m4, p: simulationResult.payouts.m4, color: 'text-on-surface' },
-                        { label: '3-Match', m: simulationResult.matches.m3, p: simulationResult.payouts.m3, color: 'text-on-surface' },
+                        { label: '5-Match', icon: <Trophy size={14} />, m: simulationResult.matches.m5, p: simulationResult.payouts.m5, color: 'var(--tertiary)' },
+                        { label: '4-Match', m: simulationResult.matches.m4, p: simulationResult.payouts.m4, color: 'var(--on-surface)' },
+                        { label: '3-Match', m: simulationResult.matches.m3, p: simulationResult.payouts.m3, color: 'var(--on-surface)' },
                       ].map((tier, i) => (
-                        <div key={i} className="flex justify-between items-center bg-surface-container-highest p-3 rounded-lg">
-                          <span className={`font-bold ${tier.color} flex items-center gap-2`}>{tier.label} {tier.icon}</span>
+                        <div key={i} className="flex justify-between items-center p-3 rounded-lg"
+                          style={{ backgroundColor: 'var(--surface-container)' }}>
+                          <span className="font-bold flex items-center gap-2" style={{ color: tier.color }}>{tier.label} {tier.icon}</span>
                           <span>{tier.m} Winners</span>
                           <span className="font-bold">{tier.p === 'Rollover' ? 'Rolls Over' : `£${tier.p} ea`}</span>
                         </div>
                       ))}
                     </div>
                   </div>
-                  <div className="flex flex-col justify-center items-center text-center border-l border-glass-border pl-8">
-                    <h3 className="headline-md mb-4 text-error">Warning</h3>
+                  <div className="flex flex-col justify-center items-center text-center"
+                    style={{ borderLeft: '1px solid var(--outline-variant)', paddingLeft: '2rem' }}>
+                    <h3 className="headline-md mb-4" style={{ color: 'var(--error)' }}>Warning</h3>
                     <p className="text-sm text-muted mb-8 max-w-sm">Publishing this draw will finalize these numbers. This cannot be undone.</p>
                     <button onClick={handlePublishDraw} disabled={isProcessing}
                       className="btn" style={{ backgroundColor: 'var(--error)', color: '#fff' }}>
@@ -315,23 +339,30 @@ export default function AdminDashboard() {
               )}
             </div>
 
-            <div className="card">
+            <div className="card-elevated">
               <h2 className="title-md mb-6">Draw History</h2>
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="text-muted border-b border-glass-border">
+                  <tr className="text-muted" style={{ borderBottom: '1px solid var(--outline-variant)' }}>
                     <th className="pb-3 px-2">Date</th><th className="pb-3 px-2">Type</th>
                     <th className="pb-3 px-2">Numbers</th><th className="pb-3 px-2">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {draws.map(d => (
-                    <tr key={d.id} className="border-b border-glass-border last:border-0 hover:bg-surface-container-low transition-colors">
+                    <tr key={d.id} className="transition-colors"
+                      style={{ borderBottom: '1px solid var(--outline-variant)' }}
+                      onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--surface-container-low)'}
+                      onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}>
                       <td className="py-4 px-2">{new Date(d.draw_date).toLocaleDateString()}</td>
                       <td className="py-4 px-2 capitalize">{d.draw_type}</td>
-                      <td className="py-4 px-2 font-mono text-primary font-bold">{d.numbers?.join(' - ')}</td>
+                      <td className="py-4 px-2 font-mono font-bold" style={{ color: 'var(--primary)' }}>{d.numbers?.join(' - ')}</td>
                       <td className="py-4 px-2">
-                        <span className={`px-2 py-1 rounded text-xs font-bold ${d.status === 'published' ? 'bg-primary/20 text-primary' : 'bg-surface-variant text-muted'}`}>
+                        <span className="px-2 py-1 rounded text-xs font-bold"
+                          style={{
+                            backgroundColor: d.status === 'published' ? 'var(--primary-fixed)' : 'var(--surface-container-high)',
+                            color: d.status === 'published' ? 'var(--primary)' : 'var(--on-surface-variant)',
+                          }}>
                           {d.status?.toUpperCase()}
                         </span>
                       </td>
@@ -356,7 +387,7 @@ export default function AdminDashboard() {
             <AnimatePresence>
               {showCharityForm && (
                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}
-                  className="card border border-primary overflow-hidden">
+                  className="card-elevated overflow-hidden" style={{ border: '2px solid var(--primary)' }}>
                   <h3 className="title-md mb-4">{editingCharity ? 'Edit Charity' : 'Add New Charity'}</h3>
                   <div className="grid md:grid-cols-2 gap-4 mb-4">
                     <div>
@@ -387,26 +418,33 @@ export default function AdminDashboard() {
               )}
             </AnimatePresence>
 
-            <div className="card">
+            <div className="card-elevated">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="text-muted border-b border-glass-border">
+                  <tr className="text-muted" style={{ borderBottom: '1px solid var(--outline-variant)' }}>
                     <th className="pb-3 px-2">Name</th><th className="pb-3 px-2">Featured</th>
                     <th className="pb-3 px-2">Website</th><th className="pb-3 px-2 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {charities.map(c => (
-                    <tr key={c.id} className="border-b border-glass-border last:border-0 hover:bg-surface-container-low transition-colors">
+                    <tr key={c.id} className="transition-colors"
+                      style={{ borderBottom: '1px solid var(--outline-variant)' }}
+                      onMouseEnter={e => e.currentTarget.style.backgroundColor = 'var(--surface-container-low)'}
+                      onMouseLeave={e => e.currentTarget.style.backgroundColor = 'transparent'}>
                       <td className="py-4 px-2 font-semibold">{c.name}</td>
-                      <td className="py-4 px-2">{c.featured ? <span className="text-tertiary font-bold text-xs">★ Yes</span> : <span className="text-muted text-xs">No</span>}</td>
-                      <td className="py-4 px-2 text-primary text-xs">{c.website || '—'}</td>
+                      <td className="py-4 px-2">{c.featured
+                        ? <span className="font-bold text-xs" style={{ color: 'var(--tertiary)' }}>★ Yes</span>
+                        : <span className="text-muted text-xs">No</span>}</td>
+                      <td className="py-4 px-2 text-xs" style={{ color: 'var(--primary)' }}>{c.website || '—'}</td>
                       <td className="py-4 px-2 text-right">
                         <div className="flex gap-2 justify-end">
                           <button onClick={() => { setCharityForm({ name: c.name, description: c.description, website: c.website || '', featured: c.featured }); setEditingCharity(c.id); setShowCharityForm(true); }}
-                            className="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center hover:bg-surface-variant transition-colors"><Pencil size={14} /></button>
+                            className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
+                            style={{ backgroundColor: 'var(--surface-container-high)' }}><Pencil size={14} /></button>
                           <button onClick={() => handleDeleteCharity(c.id)}
-                            className="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center hover:bg-red-500/20 transition-colors text-red-400"><Trash2 size={14} /></button>
+                            className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
+                            style={{ backgroundColor: 'var(--error-container)', color: 'var(--error)' }}><Trash2 size={14} /></button>
                         </div>
                       </td>
                     </tr>
@@ -424,25 +462,31 @@ export default function AdminDashboard() {
             <h2 className="title-md">Winner Verification & Payouts ({winners.length})</h2>
             {winners.map(w => (
               <motion.div key={w.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                className="card border border-glass-border flex flex-col md:flex-row items-start md:items-center gap-6">
+                className="card-elevated flex flex-col md:flex-row items-start md:items-center gap-6"
+                style={{ border: '1px solid var(--outline-variant)' }}>
                 <div className="flex-1">
                   <div className="font-semibold text-lg">{w.profiles?.full_name || 'Unknown User'}</div>
                   <div className="text-sm text-muted">
                     {w.match_type}-Match · £{parseFloat(w.prize_amount).toFixed(2)} · Draw: {w.draws?.draw_date ? new Date(w.draws.draw_date).toLocaleDateString() : 'N/A'}
                   </div>
                   {w.proof_url && (
-                    <a href={w.proof_url} target="_blank" rel="noopener noreferrer" className="text-primary text-sm hover:underline mt-1 block">View Proof Upload →</a>
+                    <a href={w.proof_url} target="_blank" rel="noopener noreferrer"
+                      className="text-sm hover:underline mt-1 block" style={{ color: 'var(--primary)' }}>View Proof Upload →</a>
                   )}
-                  {!w.proof_url && <div className="text-yellow-400 text-xs mt-1">No proof submitted yet</div>}
+                  {!w.proof_url && <div className="text-xs mt-1" style={{ color: 'var(--tertiary)' }}>No proof submitted yet</div>}
                 </div>
 
                 <div className="flex items-center gap-3 flex-wrap">
                   {/* Verification Status */}
-                  <div className={`px-3 py-1 rounded-full text-xs font-bold ${
-                    w.verification_status === 'approved' ? 'bg-primary/20 text-primary' :
-                    w.verification_status === 'rejected' ? 'bg-red-500/20 text-red-400' :
-                    'bg-yellow-500/20 text-yellow-400'
-                  }`}>
+                  <div className="px-3 py-1 rounded-full text-xs font-bold"
+                    style={{
+                      backgroundColor: w.verification_status === 'approved' ? 'var(--primary-fixed)'
+                        : w.verification_status === 'rejected' ? 'var(--error-container)'
+                        : 'var(--tertiary-fixed)',
+                      color: w.verification_status === 'approved' ? 'var(--primary)'
+                        : w.verification_status === 'rejected' ? 'var(--error)'
+                        : 'var(--tertiary)',
+                    }}>
                     {w.verification_status?.toUpperCase()}
                   </div>
 
@@ -451,26 +495,28 @@ export default function AdminDashboard() {
                       <button onClick={() => handleVerifyWinner(w.id, 'approved')}
                         className="btn btn-primary text-xs flex items-center gap-1 py-1 px-3"><CheckCircle size={14} /> Approve</button>
                       <button onClick={() => handleVerifyWinner(w.id, 'rejected')}
-                        className="btn btn-secondary text-xs flex items-center gap-1 py-1 px-3 text-red-400"><XCircle size={14} /> Reject</button>
+                        className="btn btn-secondary text-xs flex items-center gap-1 py-1 px-3"
+                        style={{ color: 'var(--error)' }}><XCircle size={14} /> Reject</button>
                     </>
                   )}
 
                   {/* Payout Status */}
                   {w.verification_status === 'approved' && w.payout_status !== 'paid' && (
                     <button onClick={() => handleMarkPaid(w.id)}
-                      className="btn text-xs py-1 px-3" style={{ backgroundColor: 'var(--tertiary)', color: 'var(--on-tertiary)' }}>
+                      className="btn text-xs py-1 px-3"
+                      style={{ background: 'linear-gradient(135deg, var(--tertiary), var(--tertiary-container))', color: '#ffffff' }}>
                       Mark as Paid
                     </button>
                   )}
 
                   {w.payout_status === 'paid' && (
-                    <span className="text-xs font-bold text-primary">✓ PAID</span>
+                    <span className="text-xs font-bold" style={{ color: 'var(--primary)' }}>✓ PAID</span>
                   )}
                 </div>
               </motion.div>
             ))}
             {winners.length === 0 && (
-              <div className="card text-center text-muted py-12">No winners recorded yet. Run a draw first!</div>
+              <div className="card-elevated text-center text-muted py-12">No winners recorded yet. Run a draw first!</div>
             )}
           </div>
         )}

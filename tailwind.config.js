@@ -16,11 +16,12 @@ module.exports = {
             highest: 'var(--surface-container-highest)',
           },
           variant: 'var(--surface-variant)',
-          lowest: 'rgba(255, 255, 255, 0.02)'
+          lowest: 'var(--surface-container-lowest)',
         },
         primary: {
           DEFAULT: 'var(--primary)',
           container: 'var(--primary-container)',
+          fixed: 'var(--primary-fixed)',
         },
         'on-primary': {
           DEFAULT: 'var(--on-primary)',
@@ -44,14 +45,18 @@ module.exports = {
         },
         'on-error': {
           DEFAULT: 'var(--on-error)',
-          container: 'var(--on-error-container)'
+          container: 'var(--on-error-container)',
         },
         'on-surface': {
           DEFAULT: 'var(--on-surface)',
           variant: 'var(--on-surface-variant)',
         },
+        outline: {
+          DEFAULT: 'var(--outline)',
+          variant: 'var(--outline-variant)',
+        },
         glass: {
-          border: 'var(--glass-border)'
+          border: 'var(--glass-border)',
         }
       },
       fontFamily: {
@@ -59,6 +64,10 @@ module.exports = {
         headline: ['var(--font-headline)'],
         body: ['var(--font-body)'],
         label: ['var(--font-label)'],
+      },
+      boxShadow: {
+        'ambient': 'var(--shadow-ambient)',
+        'elevated': 'var(--shadow-elevated)',
       }
     },
   },

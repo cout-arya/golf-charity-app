@@ -50,22 +50,25 @@ export default function Charities() {
   });
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="min-h-screen py-12 px-4" style={{ backgroundColor: 'var(--bg-color)' }}>
       <div className="max-w-7xl mx-auto">
         <nav className="flex justify-between items-center mb-12">
-          <Link to="/" className="font-display font-bold text-xl text-primary">ImpactLinks Golf</Link>
+          <Link to="/" className="font-display font-bold text-xl" style={{ color: 'var(--primary)' }}>⛳ ImpactLinks Golf</Link>
           <div className="flex gap-3">
             {user && <Link to="/dashboard" className="btn btn-secondary text-sm flex items-center gap-1"><ArrowLeft size={14} /> Dashboard</Link>}
             {!user && <Link to="/login" className="btn btn-secondary">Sign In</Link>}
           </div>
         </nav>
 
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-4">
+          <span className="label-kicker" style={{ color: 'var(--tertiary)' }}>OUR PARTNERS</span>
+        </motion.div>
         <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="display-lg mb-4">Our Charity Partners</motion.h1>
         <p className="text-muted mb-10 max-w-2xl">Select a charity to receive a portion of your subscription. You can change your charity at any time from your dashboard.</p>
 
         <div className="flex gap-4 mb-10 flex-wrap">
           <div className="relative flex-grow max-w-md">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--outline)' }} />
             <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}
               placeholder="Search charities..." className="input-field pl-9" />
           </div>
@@ -79,9 +82,12 @@ export default function Charities() {
           {filtered.map((charity, idx) => (
             <motion.div key={charity.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
-              className={`card-elevated flex flex-col justify-between border transition-colors ${
-                profile?.charity_id === charity.id ? 'border-primary' : 'border-glass-border hover:border-primary'
-              }`}>
+              className="card-elevated flex flex-col justify-between transition-shadow hover:shadow-lg"
+              style={{
+                border: profile?.charity_id === charity.id
+                  ? '2px solid var(--primary)'
+                  : '1px solid var(--outline-variant)'
+              }}>
               <div>
                 {charity.featured && (
                   <span className="inline-flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full mb-3"
@@ -94,7 +100,7 @@ export default function Charities() {
               </div>
               {user && (
                 profile?.charity_id === charity.id ? (
-                  <div className="flex items-center gap-2 text-primary text-sm font-bold">
+                  <div className="flex items-center gap-2 text-sm font-bold" style={{ color: 'var(--primary)' }}>
                     <Heart size={16} fill="currentColor" /> Your Selected Charity
                   </div>
                 ) : (
